@@ -1,0 +1,70 @@
+.blog{
+    background: white;
+    width:96%;
+    border-radius: 5px;
+    padding:10px 15px;
+    box-shadow: 3px 4px 3px #888888;
+    text-align: left;
+
+}
+.blog_title{
+    font-size: 24px;
+    font-weight:600;
+}
+.blog_message{
+    padding-top:10px;
+    padding-bottom:20px;
+    border-bottom: 1px solid gray;
+    margin-bottom: 20px;
+}
+
+.blog_content{
+    padding:10px 0px 20px 10px;
+    word-wrap:break-word;
+    word-break: break-all;
+    overflow: hidden;
+}
+.send_message{
+    background: #f5f5f5;
+    width:96%;
+    border-radius: 5px;
+    padding:10px 15px;
+    box-shadow: 3px 4px 3px #888888;
+    text-align: left;
+    margin-top: 50px;
+}
+.send_message input{
+    width:300px;
+    height:34px;
+    border:1px solid #cccccc;
+    border-radius: 5px;
+    padding-left: 5px;
+     margin-top: 10px;
+    margin-bottom: 10px;
+    font-size:14px;
+
+}
+
+.send_message textarea{
+    width:90%;
+    height:100%;
+    border:1px solid #cccccc;
+    padding:5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size:14px;
+    border-radius: 5px;
+}
+.send_message button{
+    width:100px;
+    height:30px;
+    border:1px solid #cccccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+
+}
+.send_message button:hover{
+    background: #adadad;
+}

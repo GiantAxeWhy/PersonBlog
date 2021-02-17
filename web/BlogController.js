@@ -6,15 +6,27 @@ var respUtil = require("../util/RespUtil")
 var url  = require("url")
 
 var path =new Map()
+
+function queryBlogById(request,response){
+    var params = url.parse(request.url,true).query
+    blogDao.queryBlogById(parseInt(params.bid),function (result) {
+        response.writeHead(200)
+        response.write(respUtil.writeResult("success","查询成功",result))
+        response.end()
+    })
+
+}
+path.set("/queryBlogById",queryBlogById)
 function queryBlogByPage(request,response){
        var params = url.parse(request.url,true).query
     blogDao.queryBlogByPage(parseInt(params.page),parseInt(params.pageSize),function(result){
         for(let i =0;i<result.length;i++){
 
-           result[i].content = result[i].content.replace(/<img[\w\W]*">/g,"" );
+           result[i].content = result[i].content.replace(/<img[\w\W]*">/,"" );
             result[i].content = result[i].content.replace(/<[\w\W]{1,5}>/g,"" );
             result[i].content = result[i].content.substring(0,300);
         }
+
         response.writeHead(200)
         response.write(respUtil.writeResult("success","查询成功",result))
         response.end()
@@ -23,8 +35,14 @@ function queryBlogByPage(request,response){
 }
 path.set("/queryBlogByPage",queryBlogByPage)
 
-
-
+function queryBlogCount(request,response){
+        blogDao.queryBlogCount(function(result){
+            response.writeHead(200);
+            response.write(respUtil.writeResult("success","查询成功",result))
+            response.end()
+        })
+}
+path.set("/queryBlogCount",queryBlogCount)
 function editBlog(request,response) {
     var params  = url.parse(request.url,true).query
     console.log('params',params)

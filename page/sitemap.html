@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>个人博客</title>
     <link rel="stylesheet" href="./css/sitemap.css">
+    <script src="./js/axios.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 </head>
 <body>
     <div class="title">
@@ -12,24 +14,12 @@
     <div class="link">
        <a href="/"><b>博客首页</b></a>>>站点地图
     </div>
-<div class="blog_list">
+<div class="blog_list" id="blog_list">
     <span>最新文章</span>
     <ul>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-        <li><a href="/">lnmp1.7安装环境后mysql无法启动的解决</a></li>
-    </ul>
+        <li v-for="blog in blogList"><a v-bind:href="blog.link" >{{blog.title}}</a></li>
+        </ul>
 </div>
+<script src="./js/sitemap.js"></script>
 </body>
 </html>

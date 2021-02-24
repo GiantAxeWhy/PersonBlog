@@ -1,7 +1,7 @@
 var randomTags = new Vue ({
     el:"#random_tags",
     data:{
-        tags:["asd","wer" ,"aqr","fsdgs","qrfqr","fgdfge","utyiyi","ddvg","tewrwqer","eqwe"]
+        tags:[]
     },
     computed:{
         randomColor:function () {
@@ -20,6 +20,20 @@ var randomTags = new Vue ({
             }
         }
     },
+    created:function () {
+        axios({
+            method:"get",
+            url:"/queryRandomTags"
+        }).then(function(resp){
+
+            let result=[]
+            for(let i =0;i<resp.data.data.length;i++){
+                result.push({text:resp.data.data[i].tag,link:"/?tag="+resp.data.data[i].tag})
+            }
+            randomTags.tags =result
+
+        })
+    }
 
 })
 
@@ -28,14 +42,24 @@ var newHot = new Vue ({
     el:"#new_hot",
     data:{
         titleList:[
-            {title:"这是一个链接",link:"http://www.baidu.com"},
-            {title:"这是一个链接2",link:"http://www.baidu.com"},
-            {title:"这是一个链接3",link:"http://www.baidu.com"},
-            {title:"这是一个链接4",link:"http://www.baidu.com"},
-            {title:"这是一个链接5",link:"http://www.baidu.com"},
-            {title:"这是一个链接6",link:"http://www.baidu.com"},
 
         ]
+    },
+    created:function () {
+        axios({
+            method:"get",
+            url:"/queryHotBlog"
+        }).then(function (resp) {
+            console.log(resp)
+            let result =[]
+            for(let i=0;i<resp.data.data.length;i++){
+                let temp={}
+                temp.title=resp.data.data[i].title
+                temp.link="/blog_detail.html?bid="+resp.data.data[i].id
+                result.push(temp)
+            }
+            newHot.titleList = result
+        })
     }
 
 })
@@ -44,13 +68,24 @@ var newComments=new Vue({
     el:"#new_comments",
     data:{
         commentList:[
-            {name:"用户名1",date:'2010-10-01',comment:"这里是一大串评论"},
-            {name:"用户名1",date:'2010-10-01',comment:"这里是一大串评论"},
-            {name:"用户名1",date:'2010-10-01',comment:"这里是一大串评论"},
-            {name:"用户名1",date:'2010-10-01',comment:"这里是一大串评论"},
-            {name:"用户名1",date:'2010-10-01',comment:"这里是一大串评论"},
-            {name:"用户名1",date:'2010-10-01',comment:"这里是一大串评论"},
-        ]
+                   ]
+    },
+    created:function () {
+        axios({
+            method:"get",
+            url:"/queryNewComments"
+        }).then(function (resp) {
+            console.log(resp)
+            let result =[]
+            for(let i=0;i<resp.data.data.length;i++){
+                let temp={}
+                temp.name=resp.data.data[i].user_name
+                temp.date=resp.data.data[i].ctime
+                temp.comment=resp.data.data[i].comments
+                result.push(temp)
+            }
+            newComments.commentList = result
+        })
     }
 
 })

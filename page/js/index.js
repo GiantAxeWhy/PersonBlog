@@ -38,37 +38,82 @@ var articleList = new Vue({
         },
         getPage:function () {
             return function (page,pageSize) {
-                axios({
-                    method: "get",
-                    url:"/queryBlogByPage?page="+(page-1)+"&pageSize="+pageSize
-                }).then(function(resp){
-                    var result = resp.data.data
-                    var list=[]
-                    for(let i = 0;i<result.length;i++){
-                        var temp={}
-                        temp.title=result[i].title;
-                        temp.content= result[i].content
-                        temp.date = result[i].ctime;
-                        temp.views= result[i].views
-                        temp.tags = result[i].tags
-                        temp.id = result[i].id
-                        temp.link = "/blog_detail.html?bid="+result[i].id
-                        list.push(temp)
+                var searchUrlParams = location.search.indexOf("?")>-1?location.search.split("?")[1].split("&"):""
+                var tag ='';
+                for(let i =0;i<searchUrlParams.length;i++){
+                    if(searchUrlParams[i].split("=")[0] =="tag"){
+                        try{
+                            tag =searchUrlParams[i].split("=")[1]
+                        }catch (e) {
+                            console.log(e)
+                        }
                     }
-                    articleList.articleList =list
-                    articleList.page =page
-                    console.log(resp)
+                }
+                if(tag==""){//不是查询
+                    axios({
+                        method: "get",
+                        url:"/queryBlogByPage?page="+(page-1)+"&pageSize="+pageSize
+                    }).then(function(resp){
+                        var result = resp.data.data
+                        var list=[]
+                        for(let i = 0;i<result.length;i++){
+                            var temp={}
+                            temp.title=result[i].title;
+                            temp.content= result[i].content
+                            temp.date = result[i].ctime;
+                            temp.views= result[i].views
+                            temp.tags = result[i].tags
+                            temp.id = result[i].id
+                            temp.link = "/blog_detail.html?bid="+result[i].id
+                            list.push(temp)
+                        }
+                        articleList.articleList =list
+                        articleList.page =page
+                        console.log(resp)
 
-                }).catch(function(resp){
-                    console.log("请求错误")
-                })
-                axios({
-                    method:"get",
-                    url:"/queryBlogCount"
-                }).then(function(resp){
-                   articleList.count = resp.data.data[0].count
-                    articleList.generaPage;
-                })
+                    }).catch(function(resp){
+                        console.log("请求错误")
+                    })
+                    axios({
+                        method:"get",
+                        url:"/queryBlogCount"
+                    }).then(function(resp){
+                        articleList.count = resp.data.data[0].count
+                        articleList.generaPage;
+                    })
+                }else{
+                    axios({
+                        method: "get",
+                        url:"/queryByTag?page="+(page-1)+"&pageSize="+pageSize+"&tag="+tag
+                    }).then(function(resp){
+                        var result = resp.data.data
+                        var list=[]
+                        for(let i = 0;i<result.length;i++){
+                            var temp={}
+                            temp.title=result[i].title;
+                            temp.content= result[i].content
+                            temp.date = result[i].ctime;
+                            temp.views= result[i].views
+                            temp.tags = result[i].tags
+                            temp.id = result[i].id
+                            temp.link = "/blog_detail.html?bid="+result[i].id
+                            list.push(temp)
+                        }
+                        articleList.articleList =list
+                        articleList.page =page
+                    }).catch(function(resp){
+                        console.log("请求错误")
+                    })
+
+                    axios({
+                        method:"get",
+                        url:"/queryByTagCount?tag="+tag
+                    }).then(function(resp){
+                        articleList.count = resp.data.data[0].count
+                        articleList.generaPage;
+                    })
+                }
+
 
             }
         },

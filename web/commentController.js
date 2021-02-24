@@ -37,6 +37,14 @@ function queryCommentsByBlogId(request,response){
     })
 }
 path.set("/queryCommentsByBlogId",queryCommentsByBlogId)
+function queryNewComments(request,response){
+    CommentDao.queryNewComments(5,function (result) {
+        response.writeHead(200)
+        response.write(respUtil.writeResult("success","评论成功",result))
+        response.end()
+    })
+}
+path.set("/queryNewComments",queryNewComments)
 
 function queryCommentsCountByBlogId(request,response){
     var params = url.parse(request.url,true).query
